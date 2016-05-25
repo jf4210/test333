@@ -4,12 +4,13 @@
 //!扫描端
 #define USER_LOGIN				0x2001			//登录
 #define USER_GETEXAMINFO		0x2002			//获取考试信息
-
+#define USER_SETMODELINFO		0x2003			//设置模板信息
 
 //应答指令
 #define RESPONSE_UPLOADANS		0x4001			//应答文件上传结果
 #define USER_RESPONSE_LOGIN		0x4002			//应答扫描端登录
 #define USER_RESPONSE_EXAMINFO	0x4003			//应答获取考试信息
+#define USER_RESPONSE_MODELINFO 0x4004			//应答设置模板信息
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -20,6 +21,8 @@
 #define RESULT_LOGIN_FAIL			0x6002					//登录失败
 #define RESULT_EXAMINFO_SUCCESS		0x6003					//获取考试信息成功
 #define RESULT_EXAMINFO_FAIL		0x6004					//获取考试信息失败
+#define RESULT_SETMODELINFO_SEND	0x6005					//需要发送模板信息
+#define RESULT_SETMODELINFO_NO		0x6006					//不需要重新发送模板信息
 
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
@@ -58,8 +61,6 @@ typedef struct	tagLoginInfo
 	
 	tagLoginInfo()
 	{
-// 		memset(szUserNo, 0, LEN_NAME);
-// 		memset(szPWD, 0, LEN_PWD);
 	}
 }ST_LOGIN_INFO, *pStLoginInfo;
 
@@ -68,9 +69,16 @@ typedef struct tagGetExamInfo
 	char	szEzs[LEN_NAME];
 	tagGetExamInfo()
 	{
-//		memset(szEzs, 0, LEN_NAME);
 	}
 }ST_EXAM_INFO, *pStExamInfo;
+
+typedef struct tagModelInfo
+{
+	int		nExamID;
+	int		nSubjectID;
+	char	szUserNo[LEN_NAME];
+	char	szMD5[LEN_MD5];
+}ST_MODELINFO, *pST_MODELINFO;
 
 //上传的文件信息
 typedef struct tagFileInfo
