@@ -5,12 +5,16 @@
 #define USER_LOGIN				0x2001			//登录
 #define USER_GETEXAMINFO		0x2002			//获取考试信息
 #define USER_SETMODELINFO		0x2003			//设置模板信息
+#define USER_NEED_DOWN_MODEL	0x2004			//请求下载模板
+#define USER_DOWN_MODEL			0x2005			//下载模板
 
 //应答指令
 #define RESPONSE_UPLOADANS		0x4001			//应答文件上传结果
 #define USER_RESPONSE_LOGIN		0x4002			//应答扫描端登录
 #define USER_RESPONSE_EXAMINFO	0x4003			//应答获取考试信息
 #define USER_RESPONSE_MODELINFO 0x4004			//应答设置模板信息
+#define USER_RESPONSE_NEEDDOWN	0x4005			//应答请求下载模板
+#define USER_RESPONSE_DOWNMODEL	0x4006			//应答下载模板
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -23,6 +27,10 @@
 #define RESULT_EXAMINFO_FAIL		0x6004					//获取考试信息失败
 #define RESULT_SETMODELINFO_SEND	0x6005					//需要发送模板信息
 #define RESULT_SETMODELINFO_NO		0x6006					//不需要重新发送模板信息
+#define RESULT_DOWNMODEL_OK			0x6007					//可以正常下载
+#define RESULT_DOWNMODEL_FAIL		0x6008					//下载的模板不存在
+#define RESULT_DOWNMODEL_NONEED		0x6009					//不需要重新下载模板
+#define RESULT_DOWNMODEL_RECV		0x6010					//接收模板文件
 
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
@@ -78,7 +86,18 @@ typedef struct tagModelInfo
 	int		nSubjectID;
 	char	szUserNo[LEN_NAME];
 	char	szMD5[LEN_MD5];
+	char	szModelName[LEN_NAME];
+	char	szEzs[LEN_NAME];
 }ST_MODELINFO, *pST_MODELINFO;
+
+typedef struct tagDownModel
+{
+	int		nExamID;
+	int		nSubjectID;
+	char	szUserNo[LEN_NAME];
+	char	szMD5[LEN_MD5];
+	char	szModelName[LEN_NAME];
+}ST_DOWN_MODEL, *pST_DOWN_MODEL;
 
 //上传的文件信息
 typedef struct tagFileInfo
