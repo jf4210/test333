@@ -94,6 +94,7 @@ typedef struct tagDownModel
 {
 	int		nExamID;
 	int		nSubjectID;
+	int		nModelSize;
 	char	szUserNo[LEN_NAME];
 	char	szMD5[LEN_MD5];
 	char	szModelName[LEN_NAME];
