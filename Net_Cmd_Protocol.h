@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 //!试卷上传指令
 #define REQUEST_UPLOADANS		0x1001			//文件上传
 //!扫描端
@@ -42,6 +44,7 @@
 #define LEN_MD5				100
 #define LEN_IPADDRESS		16
 #define LEN_PWD				30
+#define LEN_USERINFO		500
 
 
 #define HEAD_SIZE	sizeof(ST_CMD_HEADER)
@@ -71,6 +74,13 @@ typedef struct	tagLoginInfo
 	{
 	}
 }ST_LOGIN_INFO, *pStLoginInfo;
+
+typedef struct tagLoginResult
+{
+	int		nTeacherId;
+	char	szEzs[LEN_NAME];
+	char	szUserInfo[LEN_USERINFO];
+}ST_LOGIN_RESULT, *pST_LOGIN_RESULT;
 
 typedef struct tagGetExamInfo
 {
