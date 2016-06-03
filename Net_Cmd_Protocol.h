@@ -78,6 +78,7 @@ typedef struct	tagLoginInfo
 typedef struct tagLoginResult
 {
 	int		nTeacherId;
+	int		nUserId;
 	char	szEzs[LEN_NAME];
 	char	szUserInfo[LEN_USERINFO];
 }ST_LOGIN_RESULT, *pST_LOGIN_RESULT;
