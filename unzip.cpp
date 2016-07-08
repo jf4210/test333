@@ -3510,11 +3510,13 @@ int unzReadCurrentFile  (unzFile file, voidp buf, unsigned len, bool *reached_eo
       }
     }
 
-    unsigned int uDoEncHead = pfile_in_zip_read_info->encheadleft;
+	unsigned int uDoEncHead = pfile_in_zip_read_info->encheadleft;
     if (uDoEncHead>pfile_in_zip_read_info->stream.avail_in) uDoEncHead=pfile_in_zip_read_info->stream.avail_in;
     if (uDoEncHead>0)
     { char bufcrc=pfile_in_zip_read_info->stream.next_in[uDoEncHead-1];
-      pfile_in_zip_read_info->rest_read_uncompressed-=uDoEncHead;
+#if 0	//如果带有密码解压，这里会导致文件大小减少12字节，文本文件会导致文件末尾的字符缺失
+		pfile_in_zip_read_info->rest_read_uncompressed-=uDoEncHead;
+#endif
       pfile_in_zip_read_info->stream.avail_in -= uDoEncHead;
       pfile_in_zip_read_info->stream.next_in += uDoEncHead;
       pfile_in_zip_read_info->encheadleft -= uDoEncHead;
