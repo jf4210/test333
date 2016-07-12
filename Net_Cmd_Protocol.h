@@ -5,18 +5,20 @@
 #define REQUEST_UPLOADANS		0x1001			//文件上传
 //!扫描端
 #define USER_LOGIN				0x2001			//登录
-#define USER_GETEXAMINFO		0x2002			//获取考试信息
-#define USER_SETMODELINFO		0x2003			//设置模板信息
-#define USER_NEED_DOWN_MODEL	0x2004			//请求下载模板
-#define USER_DOWN_MODEL			0x2005			//下载模板
+#define USER_LOGOUT				0x2002			//注销登录
+#define USER_GETEXAMINFO		0x2003			//获取考试信息
+#define USER_SETMODELINFO		0x2004			//设置模板信息
+#define USER_NEED_DOWN_MODEL	0x2005			//请求下载模板
+#define USER_DOWN_MODEL			0x2006			//下载模板
 
 //应答指令
 #define RESPONSE_UPLOADANS		0x4001			//应答文件上传结果
 #define USER_RESPONSE_LOGIN		0x4002			//应答扫描端登录
-#define USER_RESPONSE_EXAMINFO	0x4003			//应答获取考试信息
-#define USER_RESPONSE_MODELINFO 0x4004			//应答设置模板信息
-#define USER_RESPONSE_NEEDDOWN	0x4005			//应答请求下载模板
-#define USER_RESPONSE_DOWNMODEL	0x4006			//应答下载模板
+#define USER_RESPONSE_LOGOUT	0x4003			//应答扫描端注销
+#define USER_RESPONSE_EXAMINFO	0x4004			//应答获取考试信息
+#define USER_RESPONSE_MODELINFO 0x4005			//应答设置模板信息
+#define USER_RESPONSE_NEEDDOWN	0x4006			//应答请求下载模板
+#define USER_RESPONSE_DOWNMODEL	0x4007			//应答下载模板
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
