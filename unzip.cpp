@@ -3521,7 +3521,11 @@ int unzReadCurrentFile  (unzFile file, voidp buf, unsigned len, bool *reached_eo
       pfile_in_zip_read_info->stream.next_in += uDoEncHead;
       pfile_in_zip_read_info->encheadleft -= uDoEncHead;
       if (pfile_in_zip_read_info->encheadleft==0)
-      { if (bufcrc!=pfile_in_zip_read_info->crcenctest) return UNZ_PASSWORD;
+      {
+		#if 0	//test
+		  if (bufcrc!=pfile_in_zip_read_info->crcenctest)
+			  return UNZ_PASSWORD;
+		#endif
       }
     }
 

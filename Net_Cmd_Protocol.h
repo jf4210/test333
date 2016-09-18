@@ -20,6 +20,7 @@
 #define USER_RESPONSE_MODELINFO 0x4005			//应答设置模板信息
 #define USER_RESPONSE_NEEDDOWN	0x4006			//应答请求下载模板
 #define USER_RESPONSE_DOWNMODEL	0x4007			//应答下载模板
+#define USER_RESPONSE_CREATE_MODEL	0x4008		//应答服务器生成模板，制卷工具生成的情况
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -36,7 +37,11 @@
 #define RESULT_DOWNMODEL_FAIL		0x6008					//下载的模板不存在
 #define RESULT_DOWNMODEL_NONEED		0x6009					//不需要重新下载模板
 #define RESULT_DOWNMODEL_RECV		0x6010					//接收模板文件
-
+#define RESULT_CREATE_MODEL_SUCCESS	0x6011					//服务器根据后端数据成功创建扫描模板
+#define RESULT_CREATE_MODEL_NOFIND	0x6012					//后端没有创建扫描模板的数据
+#define RESULT_CREATE_MODEL_FAIL	0x6013					//服务器获得后端数据，但是创建扫描模板失败
+#define RESULT_CREATE_MODEL_NONEED	0x6014					//已经生成了，不需要进行生成操作
+#define RESULT_CREATE_MODEL_DOING	0x6015					//正在进行生成操作
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
