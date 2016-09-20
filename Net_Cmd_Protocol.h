@@ -119,6 +119,13 @@ typedef struct tagDownModel
 	char	szModelName[LEN_NAME];
 }ST_DOWN_MODEL, *pST_DOWN_MODEL;
 
+typedef struct tagCreateModel
+{
+	int		nExamID;
+	int		nSubjectID;
+	char	szEzs[LEN_NAME];
+}ST_CREATE_MODEL, *pST_CREATE_MODEL;
+
 //上传的文件信息
 typedef struct tagFileInfo
 {
