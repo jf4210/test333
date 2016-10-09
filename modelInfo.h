@@ -18,7 +18,8 @@ typedef enum CPType
 	GRAY_CP,		//灰度校验
 	WHITE_CP,		//白校验
 	SN,				//考号区
-	OMR				//选择题设置
+	OMR,			//选择题设置
+	ELECT_OMR		//选做题
 };
 
 typedef struct _RectInfo_
@@ -74,6 +75,27 @@ typedef struct _OmrQuestion_			//题目
 }OMR_QUESTION, *pOMR_QUESTION;
 typedef std::list<OMR_QUESTION> OMRLIST;
 
+typedef struct _ElectOmrGroupInfo_	//选做题组信息
+{
+	int nGroupID;		//第几组选做题
+	int nAllCount;		//总选项
+	int nRealCount;		//有效选项			3选2，则此为2
+	_ElectOmrGroupInfo_()
+	{
+		nGroupID = 0;
+		nAllCount = 0;
+		nRealCount = 0;
+	}
+}ELECTOMRGROUPINFO, *pELECTOMRGROUPINFO;
+
+typedef struct _ElectOmrQuestion_	//选做题
+{
+	int nRecogResult;	//识别结果	1\2\3...
+	ELECTOMRGROUPINFO sElectOmrGroupInfo;
+	RECTLIST lItemInfo;	//选项信息
+}ELECTOMR_QUESTION, *pELECTOMR_QUESTION;
+typedef std::list<ELECTOMR_QUESTION> ELECTOMR_LIST;
+
 typedef struct _OmrResult_
 {
 	int		nTH;				//题号
@@ -116,7 +138,6 @@ typedef struct _PaperModel_
 	RECTLIST	lSelHTracker;			//选择的水平同步头区域
 	RECTLIST	lSelVTracker;			//选择的垂直同步头区域
 	RECTLIST	lSelFixRoi;				//选择定点的ROI的矩形列表，框选定点的大矩形框
-	OMRLIST		lOMR2;
 	RECTLIST	lFix;					//定点列表
 	RECTLIST	lH_Head;				//水平校验点列表
 	RECTLIST	lV_Head;				//垂直同步头列表
@@ -125,6 +146,8 @@ typedef struct _PaperModel_
 	RECTLIST	lQK_CP;					//缺考校验点
 	RECTLIST	lGray;					//灰度校验点
 	RECTLIST	lWhite;					//空白校验点
+	OMRLIST		lOMR2;
+	ELECTOMR_LIST	lElectOmr;			//多选题列表
 	_PaperModel_()
 	{
 		nPaper = -1;
