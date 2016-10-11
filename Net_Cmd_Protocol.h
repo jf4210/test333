@@ -11,6 +11,7 @@
 #define USER_NEED_DOWN_MODEL	0x2005			//请求下载模板
 #define USER_DOWN_MODEL			0x2006			//下载模板
 #define USER_NEED_CREATE_MODEL	0x2007			//请求服务器生成模板，用于制卷工具生成的情况
+#define USER_ELECTOMR_MODEL		0x2008			//上传模板中的选做题信息
 
 //应答指令
 #define RESPONSE_UPLOADANS		0x4001			//应答文件上传结果
@@ -21,6 +22,7 @@
 #define USER_RESPONSE_NEEDDOWN	0x4006			//应答请求下载模板
 #define USER_RESPONSE_DOWNMODEL	0x4007			//应答下载模板
 #define USER_RESPONSE_CREATE_MODEL	0x4008		//应答服务器生成模板，制卷工具生成的情况
+#define USER_RESPONSE_ELECTOMR_MODEL	0x4009	//应答模板中选做题信息接收情况
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -42,6 +44,7 @@
 #define RESULT_CREATE_MODEL_FAIL	0x6013					//服务器获得后端数据，但是创建扫描模板失败
 #define RESULT_CREATE_MODEL_NONEED	0x6014					//已经生成了，不需要进行生成操作
 #define RESULT_CREATE_MODEL_DOING	0x6015					//正在进行生成操作
+#define RESULT_ELECTOMR_MODEL_FAIL	0x6016					//通知后端选做题模板信息失败
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
@@ -134,6 +137,11 @@ typedef struct tagFileInfo
 	char			szMD5[LEN_MD5];						//校验码
 }ST_FILE_INFO;
 
-
+typedef struct tagElectOmr
+{
+	int		nExamID;
+	int		nSubjectID;
+	char	szEzs[LEN_NAME];
+}ST_UPLOAD_ELECTOMR, *pST_UPLOAD_ELECTOMR;
 
 

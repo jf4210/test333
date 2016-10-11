@@ -90,7 +90,7 @@ typedef struct _ElectOmrGroupInfo_	//选做题组信息
 
 typedef struct _ElectOmrQuestion_	//选做题
 {
-	int nRecogResult;	//识别结果	1\2\3...
+	std::string strRecogResult;	//识别结果	1\2\3...
 	ELECTOMRGROUPINFO sElectOmrGroupInfo;
 	RECTLIST lItemInfo;	//选项信息
 }ELECTOMR_QUESTION, *pELECTOMR_QUESTION;
@@ -173,6 +173,7 @@ typedef struct _Model_
 	int			nPicNum;				//图片数量
 	int			nABModel;				//是否是AB卷模式
 	int			nHasHead;				//是否有水平和垂直同步头
+	int			nHasElectOmr;			//是否有选做题
 	int			nExamID;
 	int			nSubjectID;
 	int			nSaveMode;				//保存模式: 1-本地模式，2-远程联网模式
@@ -187,6 +188,7 @@ typedef struct _Model_
 		nPicNum = 0;
 		nABModel = 0;
 		nHasHead = 1;
+		nHasElectOmr = 0;
 		nExamID = 0;
 		nSubjectID = 0;
 		nSaveMode = 1;
