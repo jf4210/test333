@@ -177,6 +177,12 @@ typedef struct _Model_
 	int			nExamID;
 	int			nSubjectID;
 	int			nSaveMode;				//保存模式: 1-本地模式，2-远程联网模式
+
+	int		nGaussKernel;		//高斯核
+	int		nSharpKernel;		//锐化
+	int		nCannyKernel;		//边缘
+	int		nDilateKernel;		//膨胀
+
 	std::string	strModelName;			//模板名称
 	std::string	strModelDesc;			//模板描述
 
@@ -192,6 +198,11 @@ typedef struct _Model_
 		nExamID = 0;
 		nSubjectID = 0;
 		nSaveMode = 1;
+
+		nGaussKernel = 5;
+		nSharpKernel = 5;
+		nCannyKernel = 90;
+		nDilateKernel = 6;
 	}
 	~_Model_()
 	{
