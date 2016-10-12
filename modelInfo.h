@@ -37,6 +37,12 @@ typedef struct _RectInfo_
 	int			nAnswer;						//答案循序，属于第几个答案，如1-A,2-B,3-C,4-D,5-E,6-F...
 	int			nSingle;						//0-单选，1-多选
 	int			nRecogFlag;						//识别标识：识别SN时--识别考号顺序与选项方向的考号窗口标识值；识别OMR时--识别题号顺序与选项方向的OMR设置窗口的标识值
+	
+	int		nGaussKernel;		//高斯核
+	int		nSharpKernel;		//锐化
+	int		nCannyKernel;		//边缘
+	int		nDilateKernel;		//膨胀
+
 	//	cv::Point	ptFix;
 	cv::Rect	rt;				//cv::Rect
 	//	cv::Rect	rtFix;
@@ -55,6 +61,11 @@ typedef struct _RectInfo_
 		fStandardValuePercent = 0.0;
 		fStandardValue = 0.0;
 		fRealValue = 0.0;
+		
+		nGaussKernel = 5;
+		nSharpKernel = 5;
+		nCannyKernel = 90;
+		nDilateKernel = 6;
 		//		ptFix = cv::Point(0, 0);
 	}
 }RECTINFO, *pRECTINFO;
@@ -178,10 +189,10 @@ typedef struct _Model_
 	int			nSubjectID;
 	int			nSaveMode;				//保存模式: 1-本地模式，2-远程联网模式
 
-	int		nGaussKernel;		//高斯核
-	int		nSharpKernel;		//锐化
-	int		nCannyKernel;		//边缘
-	int		nDilateKernel;		//膨胀
+// 	int		nGaussKernel;		//高斯核
+// 	int		nSharpKernel;		//锐化
+// 	int		nCannyKernel;		//边缘
+// 	int		nDilateKernel;		//膨胀
 
 	std::string	strModelName;			//模板名称
 	std::string	strModelDesc;			//模板描述
@@ -199,10 +210,10 @@ typedef struct _Model_
 		nSubjectID = 0;
 		nSaveMode = 1;
 
-		nGaussKernel = 5;
-		nSharpKernel = 5;
-		nCannyKernel = 90;
-		nDilateKernel = 6;
+// 		nGaussKernel = 5;
+// 		nSharpKernel = 5;
+// 		nCannyKernel = 90;
+// 		nDilateKernel = 6;
 	}
 	~_Model_()
 	{
