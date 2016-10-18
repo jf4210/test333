@@ -37,6 +37,7 @@ typedef struct _RectInfo_
 	int			nAnswer;						//答案循序，属于第几个答案，如1-A,2-B,3-C,4-D,5-E,6-F...
 	int			nSingle;						//0-单选，1-多选
 	int			nRecogFlag;						//识别标识：识别SN时--识别考号顺序与选项方向的考号窗口标识值；识别OMR时--识别题号顺序与选项方向的OMR设置窗口的标识值
+	int			nZkzhType;						//准考证号的类型，1-OMR，2-条码or二维码
 	
 	int		nGaussKernel;		//高斯核
 	int		nSharpKernel;		//锐化
@@ -55,6 +56,7 @@ typedef struct _RectInfo_
 		nTH = -1;
 		nAnswer = -1;
 		nRecogFlag = 0;
+		nZkzhType = 1;
 		nSingle = 0;
 		nThresholdValue = 0;
 		fRealValuePercent = 0.0;
