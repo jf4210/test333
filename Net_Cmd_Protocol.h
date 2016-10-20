@@ -110,6 +110,7 @@ typedef struct tagModelInfo
 	char	szMD5[LEN_MD5];
 	char	szModelName[LEN_NAME];
 	char	szEzs[LEN_NAME];
+	char	szElectOmr[1072];
 }ST_MODELINFO, *pST_MODELINFO;
 
 typedef struct tagDownModel
