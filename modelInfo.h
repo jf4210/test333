@@ -29,9 +29,11 @@ typedef struct _RectInfo_
 	float		fStandardValue;					//此矩形识别时标准测量值，即按照灰度阀值计算的灰度值
 	float		fStandardArea;					//模板矩形块面积，计算密度用
 	float		fStandardDensity;				//模板矩形块的密度，计算方式 = fStandardValue/fStandardArea
+	float		fStandardMeanGray;				//模板平均灰度
 	float		fRealValue;						//
 	float		fRealArea;						//实际矩形块面积
 	float		fRealDensity;					//实际矩形块密度
+	float		fRealMeanGray;					//实际矩形块的平均灰度
 	float		fStandardValuePercent;			//此矩形要求的标准值比例，即达到给定的灰度值的比例
 	float		fRealValuePercent;				//此矩形实际的比例(灰度值)
 	int			nHItem;							//第几个水平同步头
@@ -66,11 +68,13 @@ typedef struct _RectInfo_
 		fRealValuePercent = 0.0;
 		fStandardValuePercent = 0.0;
 		fStandardValue = 0.0;
+		fStandardMeanGray = 0.0;
 		fRealValue = 0.0;
 		fStandardArea = 0.0;
 		fStandardDensity = 0.0;
 		fRealArea = 0.0;
 		fRealDensity = 0.0;
+		fRealMeanGray = 0.0;
 		
 		nGaussKernel = 5;
 		nSharpKernel = 5;
