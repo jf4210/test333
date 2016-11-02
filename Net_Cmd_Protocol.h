@@ -11,7 +11,7 @@
 #define USER_NEED_DOWN_MODEL	0x2005			//请求下载模板
 #define USER_DOWN_MODEL			0x2006			//下载模板
 #define USER_NEED_CREATE_MODEL	0x2007			//请求服务器生成模板，用于制卷工具生成的情况
-#define USER_ELECTOMR_MODEL		0x2008			//上传模板中的选做题信息
+//#define USER_ELECTOMR_MODEL		0x2008			//上传模板中的选做题信息
 
 //应答指令
 #define RESPONSE_UPLOADANS		0x4001			//应答文件上传结果
