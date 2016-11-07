@@ -128,6 +128,8 @@ typedef struct tagCreateModel
 	int		nExamID;
 	int		nSubjectID;
 	char	szEzs[LEN_NAME];
+	char	szSubjectName[50];
+	char	szExamName[LEN_NAME];
 }ST_CREATE_MODEL, *pST_CREATE_MODEL;
 
 //上传的文件信息
