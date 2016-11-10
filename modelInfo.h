@@ -218,7 +218,7 @@ typedef struct _Model_
 		nHasElectOmr = 0;
 		nExamID = 0;
 		nSubjectID = 0;
-		nSaveMode = 1;
+		nSaveMode = 2;
 		nZkzhType = 1;
 	}
 	~_Model_()

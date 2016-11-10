@@ -2,8 +2,10 @@
 #include <string>
 
 #define GET_FILELIST				0x1001					//获取文件列表
+#define GET_FILE					0x1002					//请求下载文件
 
 #define RESPONSE_GET_FILELIST		0x4001					//回复文件列表
+#define RESPONSE_GET_FILE			0x4002					//回复下载文件
 
 //!结果&错误码
 #define RESULT_ERROR_UNKNOWN		0x6000					//未知错误
