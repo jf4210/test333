@@ -3,6 +3,7 @@
 
 #define GET_FILELIST				0x1001					//获取文件列表
 #define GET_FILE					0x1002					//请求下载文件
+#define RESULT_UPDATA				0x1003					//通知服务器升级结果
 
 #define RESPONSE_GET_FILELIST		0x4001					//回复文件列表
 #define RESPONSE_GET_FILE			0x4002					//回复下载文件
@@ -14,6 +15,7 @@
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
+#define RESULT_ERROR_SEND			0x600D					//发送时发生错误
 
 //字符长度定义
 #define VERIFYCODE			0x1122			//包头校验码
