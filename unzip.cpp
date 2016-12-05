@@ -3837,7 +3837,8 @@ ZRESULT TUnzip::Get(int index,ZIPENTRY *ze)
   ze->index=uf->num_file;
   TCHAR tfn[MAX_PATH];
 #ifdef UNICODE
-  MultiByteToWideChar(CP_UTF8,0,fn,-1,tfn,MAX_PATH);
+//  MultiByteToWideChar(CP_UTF8,0,fn,-1,tfn,MAX_PATH);
+	MultiByteToWideChar(CP_ACP,0,fn,-1,tfn,MAX_PATH);
 #else
   strcpy_s(tfn,fn);
 #endif

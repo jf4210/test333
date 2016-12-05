@@ -158,7 +158,8 @@ typedef struct _PaperModel_
 	std::string	strModelPicName;		//模板图片名称
 	cv::Rect	rtHTracker;
 	cv::Rect	rtVTracker;
-	cv::Rect	rtSNTracker;
+//	cv::Rect	rtSNTracker;
+	RECTINFO	rcSNTracker;
 	SNLIST		lSNInfo;				//SN信息
 	RECTLIST	lSelHTracker;			//选择的水平同步头区域
 	RECTLIST	lSelVTracker;			//选择的垂直同步头区域
