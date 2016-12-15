@@ -204,6 +204,7 @@ typedef struct _Model_
 	int			nExamID;
 	int			nSubjectID;
 	int			nSaveMode;				//保存模式: 1-本地模式，2-远程联网模式
+	int			nScanDpi;				//扫描图片dpi
 	
 	std::string	strModelName;			//模板名称
 	std::string	strModelDesc;			//模板描述
@@ -221,6 +222,7 @@ typedef struct _Model_
 		nSubjectID = 0;
 		nSaveMode = 2;
 		nZkzhType = 1;
+		nScanDpi = 200;
 	}
 	~_Model_()
 	{
