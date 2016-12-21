@@ -155,6 +155,7 @@ typedef struct _PaperModel_
 	int			nPaper;					//标识此模板属于第几张试卷
 	int			nPicW;					//图片宽
 	int			nPicH;					//图片高
+	int			nPaperType;				//试卷类型，A3-1，A4-2
 	std::string	strModelPicName;		//模板图片名称
 	cv::Rect	rtHTracker;
 	cv::Rect	rtVTracker;
@@ -179,6 +180,7 @@ typedef struct _PaperModel_
 		nPaper = -1;
 		nPicW = -1;
 		nPicH = -1;
+		nPaperType = -1;
 	}
 	~_PaperModel_()
 	{
