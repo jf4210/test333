@@ -207,6 +207,7 @@ typedef struct _Model_
 	int			nSubjectID;
 	int			nSaveMode;				//保存模式: 1-本地模式，2-远程联网模式
 	int			nScanDpi;				//扫描图片dpi
+	int			nAutoCut;				//扫描仪的自动裁剪功能(针对超长纸不能打开此开关)
 	
 	std::string	strModelName;			//模板名称
 	std::string	strModelDesc;			//模板描述
@@ -225,6 +226,7 @@ typedef struct _Model_
 		nSaveMode = 2;
 		nZkzhType = 1;
 		nScanDpi = 200;
+		nAutoCut = 1;
 	}
 	~_Model_()
 	{
