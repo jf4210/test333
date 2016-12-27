@@ -115,9 +115,15 @@ typedef struct _ElectOmrGroupInfo_	//选做题组信息
 
 typedef struct _ElectOmrQuestion_	//选做题
 {
+	int		nDoubt;				//0-无怀疑, 1-有怀疑, 2-空值
 	std::string strRecogResult;	//识别结果	1\2\3...
+	std::string strRecogResult2;	//识别结果	1\2\3...
 	ELECTOMRGROUPINFO sElectOmrGroupInfo;
 	RECTLIST lItemInfo;	//选项信息
+	_ElectOmrQuestion_()
+	{
+		nDoubt = 0;
+	}
 }ELECTOMR_QUESTION, *pELECTOMR_QUESTION;
 typedef std::list<ELECTOMR_QUESTION> ELECTOMR_LIST;
 
@@ -207,6 +213,7 @@ typedef struct _Model_
 	int			nSubjectID;
 	int			nSaveMode;				//保存模式: 1-本地模式，2-远程联网模式
 	int			nScanDpi;				//扫描图片dpi
+	int			nScanSize;				//扫描图片大小，1-A4，2-A3，3-定制
 	int			nAutoCut;				//扫描仪的自动裁剪功能(针对超长纸不能打开此开关)
 	
 	std::string	strModelName;			//模板名称
@@ -226,6 +233,7 @@ typedef struct _Model_
 		nSaveMode = 2;
 		nZkzhType = 1;
 		nScanDpi = 200;
+		nScanSize = 1;
 		nAutoCut = 1;
 	}
 	~_Model_()
