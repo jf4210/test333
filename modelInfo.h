@@ -134,6 +134,7 @@ typedef struct _OmrResult_
 	int		nDoubt;				//0-无怀疑, 1-有怀疑, 2-空值
 	std::string strRecogVal;	//识别结果：A、B、C...
 	std::string strRecogVal2;
+	std::string strRecogVal3;
 	RECTLIST	lSelAnswer;				//选项列表
 	_OmrResult_()
 	{
