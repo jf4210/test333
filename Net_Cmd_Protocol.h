@@ -50,6 +50,7 @@
 #define RESULT_CREATE_MODEL_NONEED	0x6014					//已经生成了，不需要进行生成操作
 #define RESULT_CREATE_MODEL_DOING	0x6015					//正在进行生成操作
 #define RESULT_ELECTOMR_MODEL_FAIL	0x6016					//通知后端选做题模板信息失败
+#define RESULT_LOGIN_PLATFORM_TY	0x6017					//登录平台选择，天喻专用
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
