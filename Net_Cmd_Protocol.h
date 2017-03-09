@@ -12,6 +12,7 @@
 #define USER_DOWN_MODEL			0x2006			//下载模板
 #define USER_NEED_CREATE_MODEL	0x2007			//请求服务器生成模板，用于制卷工具生成的情况
 //#define USER_ELECTOMR_MODEL		0x2008			//上传模板中的选做题信息
+#define USER_LOGIN_4TY			0x2008			//登录天喻平台信息，天喻专用
 
 //守护进程
 #define GET_VERSERVER_ADDR		0x3001			//获取版本控制服务器的地址信息
@@ -99,6 +100,19 @@ typedef struct tagLoginResult
 	char	szEzs[LEN_NAME];
 	char	szUserInfo[LEN_USERINFO];
 }ST_LOGIN_RESULT, *pST_LOGIN_RESULT;
+
+typedef struct	tagLoginInfo4TY				//天喻多平台登录
+{
+	char		szUserNo[LEN_NAME];			//用户账号、身份证
+	char		szPWD[LEN_PWD];				//登陆密码
+	char		szPlatformCode[30];			//平台代码
+	char		szEncryption[30];			//平台加密方式
+	char		szPlatformUrl[200];			//平台url
+
+	tagLoginInfo4TY()
+	{
+	}
+}ST_LOGIN_INFO4TY, *pStLoginInfo4TY;
 
 typedef struct tagGetExamInfo
 {
