@@ -181,7 +181,7 @@ typedef struct _PaperModel_
 	RECTLIST	lGray;					//灰度校验点
 	RECTLIST	lWhite;					//空白校验点
 	OMRLIST		lOMR2;
-	ELECTOMR_LIST	lElectOmr;			//多选题列表
+	ELECTOMR_LIST	lElectOmr;			//选做题列表
 	_PaperModel_()
 	{
 		nPaper = -1;
@@ -228,7 +228,7 @@ typedef struct _Model_
 		nEnableModify = 1;
 		nPicNum = 0;
 		nABModel = 0;
-		nHasHead = 1;
+		nHasHead = 0;
 		nHasElectOmr = 0;
 		nExamID = 0;
 		nSubjectID = 0;
