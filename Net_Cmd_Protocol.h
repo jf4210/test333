@@ -13,6 +13,7 @@
 #define USER_NEED_CREATE_MODEL	0x2007			//请求服务器生成模板，用于制卷工具生成的情况
 //#define USER_ELECTOMR_MODEL		0x2008			//上传模板中的选做题信息
 #define USER_LOGIN_4TY			0x2008			//登录天喻平台信息，天喻专用
+#define USER_GET_BMK			0x2009			//客户端获取报名库信息
 
 //守护进程
 #define GET_VERSERVER_ADDR		0x3001			//获取版本控制服务器的地址信息
@@ -29,6 +30,7 @@
 #define USER_RESPONSE_DOWNMODEL	0x4007			//应答下载模板
 #define USER_RESPONSE_CREATE_MODEL	0x4008		//应答服务器生成模板，制卷工具生成的情况
 #define USER_RESPONSE_ELECTOMR_MODEL	0x4009	//应答模板中选做题信息接收情况
+#define USER_RESPONSE_GET_BMK		0x4010		//应答客户端获取报名库请求
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -52,6 +54,8 @@
 #define RESULT_CREATE_MODEL_DOING	0x6015					//正在进行生成操作
 #define RESULT_ELECTOMR_MODEL_FAIL	0x6016					//通知后端选做题模板信息失败
 #define RESULT_LOGIN_PLATFORM_TY	0x6017					//登录平台选择，天喻专用
+#define RESULT_GET_BMK_SUCCESS		0x6018					//获取报名库成功
+#define RESULT_GET_BMK_FAIL			0x6019					//获取报名库失败
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
@@ -121,6 +125,16 @@ typedef struct tagGetExamInfo
 	{
 	}
 }ST_EXAM_INFO, *pStExamInfo;
+
+typedef struct tagGetBmkInfo
+{
+	int		nExamID;
+	int		nSubjectID;
+	char	szEzs[LEN_NAME];
+	tagGetBmkInfo()
+	{
+	}
+}ST_GET_BMK_INFO, *pStGetBmkInfo;
 
 typedef struct tagModelInfo
 {
