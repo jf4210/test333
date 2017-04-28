@@ -30,12 +30,14 @@ typedef struct _RectInfo_
 	float		fStandardArea;					//模板矩形块面积，计算密度用
 	float		fStandardDensity;				//模板矩形块的密度，计算方式 = fStandardValue/fStandardArea
 	float		fStandardMeanGray;				//模板平均灰度
+	float		fStandardStddev;				//模板的标准差
 	float		fRealValue;						//
 	float		fRealArea;						//实际矩形块面积
 	float		fRealDensity;					//实际矩形块密度
 	float		fRealMeanGray;					//实际矩形块的平均灰度
 	float		fStandardValuePercent;			//此矩形要求的标准值比例，即达到给定的灰度值的比例
 	float		fRealValuePercent;				//此矩形实际的比例(灰度值)
+	float		fRealStddev;					//模板的标准差
 	int			nHItem;							//第几个水平同步头
 	int			nVItem;							//第几个垂直同步头
 	int			nSnVal;							//标识准考证的数字 0-9
@@ -75,6 +77,7 @@ typedef struct _RectInfo_
 		fRealArea = 0.0;
 		fRealDensity = 0.0;
 		fRealMeanGray = 0.0;
+		fRealStddev = 0.0;
 		
 		nGaussKernel = 5;
 		nSharpKernel = 5;
