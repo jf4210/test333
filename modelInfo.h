@@ -135,7 +135,8 @@ typedef struct _OmrResult_
 	int		nTH;				//题号
 	int		nSingle;			//0-单选，1-多选
 	int		nDoubt;				//0-无怀疑, 1-有怀疑, 2-空值
-	std::string strRecogVal;	//识别结果：A、B、C...
+	std::string strRecogVal;	//最终识别结果：A、B、C...
+	std::string strRecogVal1;
 	std::string strRecogVal2;
 	std::string strRecogVal3;
 	RECTLIST	lSelAnswer;				//选项列表
