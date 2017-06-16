@@ -15,6 +15,7 @@
 #define USER_LOGIN_4TY			0x2008			//登录天喻平台信息，天喻专用
 #define USER_GET_BMK			0x2009			//客户端获取报名库信息(科目报名库)
 #define USER_GET_EXAM_BMK		0x2010			//客户端获取报名库信息(整个考试的报名库)
+#define USER_GET_FILE_UPLOAD_ADDR	0x2011		//客户端请求文件上传地址
 
 //守护进程
 #define GET_VERSERVER_ADDR		0x3001			//获取版本控制服务器的地址信息
@@ -33,6 +34,7 @@
 #define USER_RESPONSE_ELECTOMR_MODEL	0x4009	//应答模板中选做题信息接收情况
 #define USER_RESPONSE_GET_BMK		0x4010		//应答客户端获取报名库请求(科目报名库)
 #define USER_RESPONSE_GET_EXAM_BMK	0x4011		//应答客户端获取报名库请求(整个考试的报名库)
+#define USER_RESPONSE_GET_FILE_UPLOAD_ADDR	0x4012	//应答客户端请求文件上传地址
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -58,6 +60,8 @@
 #define RESULT_LOGIN_PLATFORM_TY	0x6017					//登录平台选择，天喻专用
 #define RESULT_GET_BMK_SUCCESS		0x6018					//获取报名库成功
 #define RESULT_GET_BMK_FAIL			0x6019					//获取报名库失败
+#define RESULT_GET_FILE_ADDR_SUCCESS 0x6020					//获取文件服务器地址成功
+#define RESULT_GET_FILE_ADDR_FAIL	0x6021					//获取文件服务器地址失败
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
