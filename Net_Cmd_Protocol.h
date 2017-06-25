@@ -16,6 +16,7 @@
 #define USER_GET_BMK			0x2009			//客户端获取报名库信息(科目报名库)
 #define USER_GET_EXAM_BMK		0x2010			//客户端获取报名库信息(整个考试的报名库)
 #define USER_GET_FILE_UPLOAD_ADDR	0x2011		//客户端请求文件上传地址
+#define USER_NEED_UP_MODEL_PIC	0x2012			//客户端请求上传模板图片
 
 //守护进程
 #define GET_VERSERVER_ADDR		0x3001			//获取版本控制服务器的地址信息
@@ -35,6 +36,8 @@
 #define USER_RESPONSE_GET_BMK		0x4010		//应答客户端获取报名库请求(科目报名库)
 #define USER_RESPONSE_GET_EXAM_BMK	0x4011		//应答客户端获取报名库请求(整个考试的报名库)
 #define USER_RESPONSE_GET_FILE_UPLOAD_ADDR	0x4012	//应答客户端请求文件上传地址
+#define USER_RESPONSE_NEED_UP_MODEL_PIC		0x4013	//应答客户端请求上传模板图片
+
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -62,6 +65,9 @@
 #define RESULT_GET_BMK_FAIL			0x6019					//获取报名库失败
 #define RESULT_GET_FILE_ADDR_SUCCESS 0x6020					//获取文件服务器地址成功
 #define RESULT_GET_FILE_ADDR_FAIL	0x6021					//获取文件服务器地址失败
+#define RESULT_UP_MODEL_PIC_SEND	0x6022					//可以上传模板图像
+#define RESULT_UP_MODEL_PIC_NONEED	0x6023					//可以上传模板图像
+#define RESULT_UP_MODEL_PIC_SUCCESS	0x6024					//上传模板图像成功
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
@@ -171,6 +177,17 @@ typedef struct tagCreateModel
 	char	szSubjectName[50];
 	char	szExamName[LEN_NAME];
 }ST_CREATE_MODEL, *pST_CREATE_MODEL;
+
+//模板图片上传
+typedef struct tagModelPic
+{
+	int		nExamID;
+	int		nSubjectID;
+	char	szPicName[50];
+	char	szMD5[LEN_MD5];
+	char	szModelName[LEN_NAME];
+	char	szPicPath[MAX_PATH];	//透传
+}ST_MODELPIC, *pST_MODELPIC;
 
 //上传的文件信息
 typedef struct tagFileInfo
