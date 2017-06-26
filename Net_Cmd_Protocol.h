@@ -17,6 +17,7 @@
 #define USER_GET_EXAM_BMK		0x2010			//客户端获取报名库信息(整个考试的报名库)
 #define USER_GET_FILE_UPLOAD_ADDR	0x2011		//客户端请求文件上传地址
 #define USER_NEED_UP_MODEL_PIC	0x2012			//客户端请求上传模板图片
+//#define USER_MODEL_PIC_SEND		0x2013			//模板图片开始发送
 
 //守护进程
 #define GET_VERSERVER_ADDR		0x3001			//获取版本控制服务器的地址信息
@@ -178,16 +179,27 @@ typedef struct tagCreateModel
 	char	szExamName[LEN_NAME];
 }ST_CREATE_MODEL, *pST_CREATE_MODEL;
 
-//模板图片上传
+//模板图片上传请求
 typedef struct tagModelPic
+{
+	int		nIndex;
+	int		nExamID;
+	int		nSubjectID;
+	char	szExtName[20];
+	char	szPicName[50];
+	char	szMD5[LEN_MD5];
+	char	szPicPath[260];	//透传
+}ST_MODELPIC, *pST_MODELPIC;
+
+//模板图片发送
+typedef struct tagModelPicSend
 {
 	int		nExamID;
 	int		nSubjectID;
-	char	szPicName[50];
+	int		nPicLen;
 	char	szMD5[LEN_MD5];
-	char	szModelName[LEN_NAME];
-	char	szPicPath[MAX_PATH];	//透传
-}ST_MODELPIC, *pST_MODELPIC;
+	char	szFileName[LEN_NAME];				//文件名
+}ST_SENDMODELPIC, *pST_SENDMODELPIC;
 
 //上传的文件信息
 typedef struct tagFileInfo
