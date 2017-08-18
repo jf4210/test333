@@ -19,7 +19,8 @@ typedef enum CPType
 	WHITE_CP,		//白校验
 	SN,				//考号区
 	OMR,			//选择题设置
-	ELECT_OMR		//选做题
+	ELECT_OMR,		//选做题
+	TITLE_AREA		//标题区
 };
 
 typedef struct _RectInfo_
