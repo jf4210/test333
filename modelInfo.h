@@ -20,7 +20,7 @@ typedef enum CPType
 	SN,				//考号区
 	OMR,			//选择题设置
 	ELECT_OMR,		//选做题
-	TITLE_AREA		//标题区
+	CHARACTER_AREA		//文字定位区
 };
 
 typedef struct _RectInfo_
@@ -257,7 +257,40 @@ typedef struct _Model_
 }MODEL, *pMODEL;
 typedef std::list<pMODEL> MODELLIST;	//模板列表
 
+//文字定位信息
+typedef struct _CharacterRectInfo_
+{
+	int			nIndex;							//识别次序索引
+	std::string strVal;
+	RECTINFO	rc;
+	_CharacterRectInfo_()
+	{
+		nIndex = -1;
+	}
+}ST_CHARACTER_RECTINFO, *pST_CHARACTER_RECTINFO;
 
+typedef struct _RecogCharacterInfo_
+{
+	int		nIndex;							//识别次序索引
+
+	int		nThresholdValue;				//此矩形识别时要求的标准值，即达到的灰度值的阀值
+	int		nGaussKernel;		//高斯核
+	int		nSharpKernel;		//锐化
+	int		nCannyKernel;		//边缘
+	int		nDilateKernel;		//膨胀
+
+	cv::Rect	rt;				//识别大区域
+	std::vector<ST_CHARACTER_RECTINFO> vecCharacterRt;	//每个文字的区域
+	_RecogCharacterInfo_()
+	{
+		nIndex = -1;
+		nThresholdValue = 0;
+		nGaussKernel = 5;
+		nSharpKernel = 5;
+		nCannyKernel = 90;
+		nDilateKernel = 6;
+	}
+}ST_RECOG_CHARACTER_INFO, *pST_RECOG_CHARACTER_INFO;
 
 #if 0
 typedef struct _PicInfo_				//图片信息
