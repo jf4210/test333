@@ -15,6 +15,7 @@ typedef enum CPType
 	ABMODEL,		//AB卷型
 	COURSE,			//科目
 	QK_CP,			//缺考
+	WJ_CP,			//违纪
 	GRAY_CP,		//灰度校验
 	WHITE_CP,		//白校验
 	SN,				//考号区
@@ -183,6 +184,7 @@ typedef struct _PaperModel_
 	RECTLIST	lABModel;				//卷型校验点
 	RECTLIST	lCourse;				//科目校验点
 	RECTLIST	lQK_CP;					//缺考校验点
+	RECTLIST	lWJ_CP;					//违纪校验点
 	RECTLIST	lGray;					//灰度校验点
 	RECTLIST	lWhite;					//空白校验点
 	OMRLIST		lOMR2;
@@ -261,11 +263,13 @@ typedef std::list<pMODEL> MODELLIST;	//模板列表
 typedef struct _CharacterRectInfo_
 {
 	int			nIndex;							//识别次序索引
+	float		fConfidence;					//识别信心值
 	std::string strVal;
 	RECTINFO	rc;
 	_CharacterRectInfo_()
 	{
 		nIndex = -1;
+		fConfidence = 0.0;
 	}
 }ST_CHARACTER_RECTINFO, *pST_CHARACTER_RECTINFO;
 
