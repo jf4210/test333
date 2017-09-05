@@ -163,6 +163,45 @@ typedef struct _SN_
 }SN_ITEM, *pSN_ITEM;
 typedef std::list<pSN_ITEM> SNLIST;
 
+//文字定位点信息
+typedef struct _CharacterAnchorPoint_
+{
+	int			nIndex;							//识别次序索引
+	float		fConfidence;					//识别信心值
+	std::string strVal;
+	RECTINFO	rc;
+	_CharacterAnchorPoint_()
+	{
+		nIndex = -1;
+		fConfidence = 0.0;
+	}
+}ST_CHARACTER_ANCHOR_POINT, *pST_CHARACTER_ANCHOR_POINT;
+
+//文字定位区域
+typedef struct _CharacterAnchorArea_
+{
+	int		nIndex;							//识别次序索引
+
+	int		nThresholdValue;				//此矩形识别时要求的标准值，即达到的灰度值的阀值
+	int		nGaussKernel;		//高斯核
+	int		nSharpKernel;		//锐化
+	int		nCannyKernel;		//边缘
+	int		nDilateKernel;		//膨胀
+
+	cv::Rect	rt;				//识别大区域
+	std::vector<ST_CHARACTER_ANCHOR_POINT> vecCharacterRt;	//每个文字定位点的信息
+	_CharacterAnchorArea_()
+	{
+		nIndex = -1;
+		nThresholdValue = 0;
+		nGaussKernel = 5;
+		nSharpKernel = 5;
+		nCannyKernel = 90;
+		nDilateKernel = 6;
+	}
+}ST_CHARACTER_ANCHOR_AREA, *pST_CHARACTER_ANCHOR_AREA;
+typedef std::list<ST_CHARACTER_ANCHOR_AREA> CHARACTER_ANCHOR_AREA_LIST;	//文字定位区域列表定义
+
 typedef struct _PaperModel_
 {
 	int			nPaper;					//标识此模板属于第几张试卷
@@ -189,6 +228,8 @@ typedef struct _PaperModel_
 	RECTLIST	lWhite;					//空白校验点
 	OMRLIST		lOMR2;
 	ELECTOMR_LIST	lElectOmr;			//选做题列表
+	CHARACTER_ANCHOR_AREA_LIST lCharacterAnchorArea;	//文字识别定位区域
+
 	_PaperModel_()
 	{
 		nPaper = -1;
@@ -259,42 +300,6 @@ typedef struct _Model_
 }MODEL, *pMODEL;
 typedef std::list<pMODEL> MODELLIST;	//模板列表
 
-//文字定位信息
-typedef struct _CharacterRectInfo_
-{
-	int			nIndex;							//识别次序索引
-	float		fConfidence;					//识别信心值
-	std::string strVal;
-	RECTINFO	rc;
-	_CharacterRectInfo_()
-	{
-		nIndex = -1;
-		fConfidence = 0.0;
-	}
-}ST_CHARACTER_RECTINFO, *pST_CHARACTER_RECTINFO;
-
-typedef struct _RecogCharacterInfo_
-{
-	int		nIndex;							//识别次序索引
-
-	int		nThresholdValue;				//此矩形识别时要求的标准值，即达到的灰度值的阀值
-	int		nGaussKernel;		//高斯核
-	int		nSharpKernel;		//锐化
-	int		nCannyKernel;		//边缘
-	int		nDilateKernel;		//膨胀
-
-	cv::Rect	rt;				//识别大区域
-	std::vector<ST_CHARACTER_RECTINFO> vecCharacterRt;	//每个文字的区域
-	_RecogCharacterInfo_()
-	{
-		nIndex = -1;
-		nThresholdValue = 0;
-		nGaussKernel = 5;
-		nSharpKernel = 5;
-		nCannyKernel = 90;
-		nDilateKernel = 6;
-	}
-}ST_RECOG_CHARACTER_INFO, *pST_RECOG_CHARACTER_INFO;
 
 #if 0
 typedef struct _PicInfo_				//图片信息
