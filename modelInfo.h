@@ -188,8 +188,10 @@ typedef struct _CharacterAnchorArea_
 	int		nCannyKernel;		//边缘
 	int		nDilateKernel;		//膨胀
 
+	int		arryMaxDist[2];		//距离最大的两个字的索引, 如果只有1个字，则第2个数组置-1
+
 	cv::Rect	rt;				//识别大区域
-	std::vector<ST_CHARACTER_ANCHOR_POINT> vecCharacterRt;	//每个文字定位点的信息
+	std::vector<pST_CHARACTER_ANCHOR_POINT> vecCharacterRt;	//每个文字定位点的信息
 	_CharacterAnchorArea_()
 	{
 		nIndex = -1;
@@ -198,9 +200,16 @@ typedef struct _CharacterAnchorArea_
 		nSharpKernel = 5;
 		nCannyKernel = 90;
 		nDilateKernel = 6;
+		arryMaxDist[0] = 0;
+		arryMaxDist[1] = 0;
+	}
+	~_CharacterAnchorArea_()
+	{
+		for (int i = 0; i < vecCharacterRt.size(); i++)
+			SAFE_RELEASE(vecCharacterRt[i]);
 	}
 }ST_CHARACTER_ANCHOR_AREA, *pST_CHARACTER_ANCHOR_AREA;
-typedef std::list<ST_CHARACTER_ANCHOR_AREA> CHARACTER_ANCHOR_AREA_LIST;	//文字定位区域列表定义
+typedef std::list<pST_CHARACTER_ANCHOR_AREA> CHARACTER_ANCHOR_AREA_LIST;	//文字定位区域列表定义
 
 typedef struct _PaperModel_
 {
@@ -245,6 +254,13 @@ typedef struct _PaperModel_
 			pSN_ITEM pSNItem = *itSn;
 			itSn = lSNInfo.erase(itSn);
 			SAFE_RELEASE(pSNItem);
+		}
+		CHARACTER_ANCHOR_AREA_LIST::iterator itCharAnchorArea = lCharacterAnchorArea.begin();
+		for (; itCharAnchorArea != lCharacterAnchorArea.end();)
+		{
+			pST_CHARACTER_ANCHOR_AREA pCharAnchorArea = *itCharAnchorArea;
+			itCharAnchorArea = lCharacterAnchorArea.erase(itCharAnchorArea);
+			SAFE_RELEASE(pCharAnchorArea);
 		}
 	}
 }PAPERMODEL, *pPAPERMODEL;
