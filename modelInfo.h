@@ -281,6 +281,8 @@ typedef struct _Model_
 	int			nScanSize;				//扫描图片大小，1-A4，2-A3，3-定制
 	int			nScanType;				//扫描模式：1-灰度扫描，2-彩色扫描
 	int			nAutoCut;				//扫描仪的自动裁剪功能(针对超长纸不能打开此开关)
+
+	int			nCharacterAnchorPoint;	//用来计算矩形位置的文字定点个数
 	
 	std::string	strModelName;			//模板名称
 	std::string	strModelDesc;			//模板描述
@@ -302,6 +304,7 @@ typedef struct _Model_
 		nScanSize = 1;
 		nScanType = 2;
 		nAutoCut = 1;
+		nCharacterAnchorPoint = 4;
 	}
 	~_Model_()
 	{
