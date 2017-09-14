@@ -43,8 +43,8 @@ typedef struct _RectInfo_
 	int			nHItem;							//第几个水平同步头
 	int			nVItem;							//第几个垂直同步头
 	int			nSnVal;							//标识准考证的数字 0-9
-	int			nTH;							//题号
-	int			nAnswer;						//答案循序，属于第几个答案，如1-A,2-B,3-C,4-D,5-E,6-F...
+	int			nTH;							//题号，用于文字识别时表示属于第几个识别区
+	int			nAnswer;						//答案循序，属于第几个答案，如1-A,2-B,3-C,4-D,5-E,6-F...,用于文字识别时表示属于当前识别区的第几个识别项，如第1个、第2个识别字
 	int			nSingle;						//0-单选，1-多选, 2-判断题
 	int			nRecogFlag;						//识别标识：识别SN时--识别考号顺序与选项方向的考号窗口标识值；识别OMR时--识别题号顺序与选项方向的OMR设置窗口的标识值
 	int			nZkzhType;						//准考证号的类型，1-OMR，2-条码or二维码
