@@ -187,6 +187,7 @@ typedef struct _CharacterAnchorArea_
 	int		nSharpKernel;		//锐化
 	int		nCannyKernel;		//边缘
 	int		nDilateKernel;		//膨胀
+	int		nCharacterConfidence;	//文字识别要求的信心值
 
 	int		arryMaxDist[2];		//距离最大的两个字的索引, 如果只有1个字，则第2个数组置-1
 
@@ -200,6 +201,7 @@ typedef struct _CharacterAnchorArea_
 		nSharpKernel = 5;
 		nCannyKernel = 90;
 		nDilateKernel = 6;
+		nCharacterConfidence = 60;
 		arryMaxDist[0] = 0;
 		arryMaxDist[1] = 0;
 	}
