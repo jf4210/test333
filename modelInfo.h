@@ -155,6 +155,7 @@ typedef struct _SN_
 {
 	int nItem;			//第几位数
 	int nRecogVal;		//识别的结果
+	cv::Rect rt;		//识别结果的位置
 	RECTLIST	lSN;
 	_SN_()
 	{
