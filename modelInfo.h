@@ -137,6 +137,7 @@ typedef struct _OmrResult_
 	int		nTH;				//题号
 	int		nSingle;			//0-单选，1-多选, 2-判断题
 	int		nDoubt;				//0-无怀疑, 1-有怀疑, 2-空值
+	int		nPageId;			//页面ID，属于第几页的Omr, 1,2,3...
 	std::string strRecogVal;	//最终识别结果：A、B、C...
 	std::string strRecogVal1;
 	std::string strRecogVal2;
@@ -147,6 +148,7 @@ typedef struct _OmrResult_
 		nDoubt = 0;
 		nTH = -1;
 		nSingle = 0;
+		nPageId = 1;
 	}
 }OMR_RESULT, *pOMR_RESULT;
 typedef std::list<OMR_RESULT> OMRRESULTLIST;
@@ -241,6 +243,7 @@ typedef struct _PaperModel_
 	OMRLIST		lOMR2;
 	ELECTOMR_LIST	lElectOmr;			//选做题列表
 	CHARACTER_ANCHOR_AREA_LIST lCharacterAnchorArea;	//文字识别定位区域
+	cv::Mat		matModel;				//模板的图像，在文字识别部分用到了模板匹配，需要模板的图像
 
 	_PaperModel_()
 	{
