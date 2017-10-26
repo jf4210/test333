@@ -194,6 +194,9 @@ typedef struct _CharacterAnchorArea_
 
 	int		arryMaxDist[2];		//距离最大的两个字的索引, 如果只有1个字，则第2个数组置-1
 
+	int		nRects;				//当前区域内查找到的矩形数量，在判断图像方向时有用
+//	Poco::FastMutex rectsLock;	//nRects的锁
+
 	cv::Rect	rt;				//识别大区域
 	std::vector<pST_CHARACTER_ANCHOR_POINT> vecCharacterRt;	//每个文字定位点的信息
 	_CharacterAnchorArea_()
@@ -207,6 +210,7 @@ typedef struct _CharacterAnchorArea_
 		nCharacterConfidence = 60;
 		arryMaxDist[0] = 0;
 		arryMaxDist[1] = 0;
+		nRects = -1;
 	}
 	~_CharacterAnchorArea_()
 	{
