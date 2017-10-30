@@ -292,6 +292,7 @@ typedef struct _Model_
 	int			nScanType;				//扫描模式：1-灰度扫描，2-彩色扫描
 	int			nAutoCut;				//扫描仪的自动裁剪功能(针对超长纸不能打开此开关)
 
+	int			nUseWordAnchorPoint;	//是否使用文字作为定点，0-不用，默认用黑框做定点，1-使用文字识别做定点
 	int			nCharacterAnchorPoint;	//用来计算矩形位置的文字定点个数
 	
 	std::string	strModelName;			//模板名称
@@ -314,6 +315,7 @@ typedef struct _Model_
 		nScanSize = 1;
 		nScanType = 2;
 		nAutoCut = 1;
+		nUseWordAnchorPoint = 0;
 		nCharacterAnchorPoint = 4;
 	}
 	~_Model_()
