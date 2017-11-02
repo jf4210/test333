@@ -45,6 +45,8 @@
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
 
+#define KEEPALIVE_PKG				0x5050		//心跳包
+
 //!结果&错误码
 #define RESULT_ERROR_UNKNOWN		0x6000					//未知错误
 #define RESULT_SUCCESS				0x6001
