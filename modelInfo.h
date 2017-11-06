@@ -21,7 +21,8 @@ typedef enum CPType
 	SN,				//考号区
 	OMR,			//选择题设置
 	ELECT_OMR,		//选做题
-	CHARACTER_AREA		//文字定位区
+	CHARACTER_AREA,		//文字定位区
+	WHITE_GRAY_AREA	//空白校验区
 };
 
 typedef struct _RectInfo_
@@ -138,6 +139,8 @@ typedef struct _OmrResult_
 	int		nSingle;			//0-单选，1-多选, 2-判断题
 	int		nDoubt;				//0-无怀疑, 1-有怀疑, 2-空值
 	int		nPageId;			//页面ID，属于第几页的Omr, 1,2,3...
+	float fWhiteAreaGray;
+	float fWhiteAreaGrayModel;
 	std::string strRecogVal;	//最终识别结果：A、B、C...
 	std::string strRecogVal1;
 	std::string strRecogVal2;
@@ -149,6 +152,8 @@ typedef struct _OmrResult_
 		nTH = -1;
 		nSingle = 0;
 		nPageId = 1;
+		fWhiteAreaGray = 0.0;
+		fWhiteAreaGrayModel = 0.0;
 	}
 }OMR_RESULT, *pOMR_RESULT;
 typedef std::list<OMR_RESULT> OMRRESULTLIST;
