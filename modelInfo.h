@@ -21,8 +21,9 @@ typedef enum CPType
 	SN,				//考号区
 	OMR,			//选择题设置
 	ELECT_OMR,		//选做题
-	CHARACTER_AREA,		//文字定位区
-	WHITE_GRAY_AREA	//空白校验区
+	CHARACTER_AREA,	//文字定位区
+	WHITE_GRAY_AREA,//空白校验区
+	PAGINATION		//页码标识
 };
 
 typedef struct _RectInfo_
@@ -251,6 +252,7 @@ typedef struct _PaperModel_
 	RECTLIST	lWJ_CP;					//违纪校验点
 	RECTLIST	lGray;					//灰度校验点
 	RECTLIST	lWhite;					//空白校验点
+	RECTLIST	lPagination;			//页码点
 	OMRLIST		lOMR2;
 	ELECTOMR_LIST	lElectOmr;			//选做题列表
 	CHARACTER_ANCHOR_AREA_LIST lCharacterAnchorArea;	//文字识别定位区域
@@ -301,6 +303,7 @@ typedef struct _Model_
 
 	int			nUseWordAnchorPoint;	//是否使用文字作为定点，0-不用，默认用黑框做定点，1-使用文字识别做定点
 	int			nCharacterAnchorPoint;	//用来计算矩形位置的文字定点个数
+	int			nUsePagination;			//是否使用页码标识，针对多页试卷的情况，默认不开启
 	
 	std::string	strModelName;			//模板名称
 	std::string	strModelDesc;			//模板描述
@@ -324,6 +327,7 @@ typedef struct _Model_
 		nAutoCut = 1;
 		nUseWordAnchorPoint = 0;
 		nCharacterAnchorPoint = 4;
+		nUsePagination = 0;
 	}
 	~_Model_()
 	{
