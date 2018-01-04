@@ -125,6 +125,7 @@ typedef struct _ElectOmrGroupInfo_	//选做题组信息
 typedef struct _ElectOmrQuestion_	//选做题
 {
 	int		nDoubt;				//0-无怀疑, 1-有怀疑, 2-空值
+	int		nPageId;			//页面ID，属于第几页的Omr, 1,2,3...
 	std::string strRecogResult;	//识别结果	1\2\3...
 	std::string strRecogResult2;	//识别结果	1\2\3...
 	ELECTOMRGROUPINFO sElectOmrGroupInfo;
@@ -132,6 +133,7 @@ typedef struct _ElectOmrQuestion_	//选做题
 	_ElectOmrQuestion_()
 	{
 		nDoubt = 0;
+		nPageId = 1;
 	}
 }ELECTOMR_QUESTION, *pELECTOMR_QUESTION;
 typedef std::list<ELECTOMR_QUESTION> ELECTOMR_LIST;
