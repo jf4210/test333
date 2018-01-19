@@ -236,7 +236,9 @@ typedef struct _PaperModel_
 	int			nPicW;					//图片宽
 	int			nPicH;					//图片高
 	int			nPaperType;				//试卷类型，A3-1，A4-2
+	int			nPicSaveRotation;		//图片保存方向，0:未知方向, 1: 正常视觉方向(考试作答方向)，2-正常方向左旋90后的方向，3-正常方向右旋90后的方向，4-正常方向旋转180度后的方向
 	std::string	strModelPicName;		//模板图片名称
+	std::string strModelPicPath;		//模板图片路径
 	cv::Rect	rtHTracker;
 	cv::Rect	rtVTracker;
 //	cv::Rect	rtSNTracker;
@@ -262,6 +264,7 @@ typedef struct _PaperModel_
 
 	_PaperModel_()
 	{
+		nPicSaveRotation = 0;
 		nPaper = -1;
 		nPicW = -1;
 		nPicH = -1;

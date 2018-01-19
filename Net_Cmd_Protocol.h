@@ -19,6 +19,7 @@
 #define USER_NEED_UP_MODEL_PIC	0x2012			//客户端请求上传模板图片
 //#define USER_MODEL_PIC_SEND		0x2013			//模板图片开始发送
 #define USER_GET_MODEL_PIC		0x2013			//客户端请求下载模板图片
+#define USER_CHK_NEW_GUARDEXE	0x2014			//检查是否有新的守护进程
 
 //守护进程
 #define GET_VERSERVER_ADDR		0x3001			//获取版本控制服务器的地址信息
@@ -40,7 +41,7 @@
 #define USER_RESPONSE_GET_FILE_UPLOAD_ADDR	0x4012	//应答客户端请求文件上传地址
 #define USER_RESPONSE_NEED_UP_MODEL_PIC		0x4013	//应答客户端请求上传模板图片
 #define USER_RESPONSE_GET_MODEL_PIC	0x4014			//应答客户端请求下载模板图片
-
+#define USER_RESPONSE_CHK_NEW_GUARDEXE		0x4015	//应答客户端检查是否有新的守护进程
 
 //!通知消息
 #define NOTIFY_RECVANSWERFIN		0x5001		//文件接收完成的通知
@@ -75,6 +76,7 @@
 #define RESULT_UP_MODEL_PIC_SUCCESS	0x6024					//上传模板图像成功
 #define RESULT_GET_MODEL_PIC_SUCCESS	0x6025				//下载模板图像成功
 #define RESULT_GET_MODEL_PIC_NOPIC	0x6026					//模板图像不存在
+#define RESULT_GET_NEW_GUARDEXE_NOFILE	0x6027				//服务器上新守护进程不存在
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败

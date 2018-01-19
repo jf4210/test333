@@ -129,7 +129,7 @@ char* MD5File(char* szFilename)
 
 	}
 
-	return NULL; // failed
+	return ""; // failed
 }
 
 
