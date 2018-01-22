@@ -105,6 +105,8 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 				paperModelInfo->nPicW = jsnPaperObj->get("picW").convert<int>();
 			if (jsnPaperObj->has("picH"))			//add on 16.8.29
 				paperModelInfo->nPicH = jsnPaperObj->get("picH").convert<int>();
+			if (jsnPaperObj->has("picSaveRotion"))
+				paperModelInfo->nPicSaveRotation = jsnPaperObj->get("picSaveRotion").convert<int>();
 
 			paperModelInfo->rtHTracker.x = jsnPaperObj->get("rtHTracker.x").convert<int>();
 			paperModelInfo->rtHTracker.y = jsnPaperObj->get("rtHTracker.y").convert<int>();
@@ -1408,6 +1410,7 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 		jsnPaperObj.set("electOmrList", jsnElectOmrArry);
 		jsnPaperObj.set("characterAnchorArea", jsnCharacterAnchorAreaArry);
 
+		jsnPaperObj.set("picSaveRotion", pModel->vecPaperModel[i]->nPicSaveRotation);
 		jsnPaperObj.set("picW", pModel->vecPaperModel[i]->nPicW);		//add on 16.8.29
 		jsnPaperObj.set("picH", pModel->vecPaperModel[i]->nPicH);		//add on 16.8.29
 		jsnPaperObj.set("rtHTracker.x", pModel->vecPaperModel[i]->rtHTracker.x);
