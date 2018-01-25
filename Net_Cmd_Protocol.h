@@ -77,6 +77,8 @@
 #define RESULT_GET_MODEL_PIC_SUCCESS	0x6025				//下载模板图像成功
 #define RESULT_GET_MODEL_PIC_NOPIC	0x6026					//模板图像不存在
 #define RESULT_GET_NEW_GUARDEXE_NOFILE	0x6027				//服务器上新守护进程不存在
+#define RESULT_GET_NEW_GUARDEXE_NONEED	0x6028				//客户端上的守护进程和服务器一致，不需要下载
+#define RESULT_GET_NEW_GUARDEXE_SUCCESS 0x6029				//发送新守护进程数据成功
 
 #define RESULT_ERROR_FILEIO			0x600B					//文件读写失败
 #define RESULT_ERROR_CHECKMD5		0x600C					//MD5校验失败
