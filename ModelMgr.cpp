@@ -77,6 +77,8 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 			pModel->nCharacterAnchorPoint = objData->get("nCharacterAnchorPoint").convert<int>();
 		if (objData->has("nUsePagination"))
 			pModel->nUsePagination = objData->get("nUsePagination").convert<int>();
+		if (objData->has("nChkLostCorner"))
+			pModel->nChkLostCorner = objData->get("nChkLostCorner").convert<int>();
 
 		// 		if (objData->has("gaussKernel"))
 		// 			pModel->nGaussKernel = objData->get("gaussKernel").convert<int>();
@@ -1447,6 +1449,7 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 	jsnModel.set("nUseWordAnchorPoint", pModel->nUseWordAnchorPoint);		//是否使用文字定点来定位识别
 	jsnModel.set("nCharacterAnchorPoint", pModel->nCharacterAnchorPoint);	//用来计算矩形位置的文字定点个数
 	jsnModel.set("nUsePagination", pModel->nUsePagination);					//是否使用页码标识
+	jsnModel.set("nChkLostCorner", pModel->nChkLostCorner);					//是否需要进行缺角检测
 
 	jsnModel.set("nExamId", pModel->nExamID);
 	jsnModel.set("nSubjectId", pModel->nSubjectID);
