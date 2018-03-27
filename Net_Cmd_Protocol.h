@@ -144,6 +144,7 @@ typedef struct	tagLoginInfo4TY				//天喻多平台登录
 typedef struct tagGetExamInfo
 {
 	char	szEzs[LEN_NAME];
+	int		nUserId;
 	tagGetExamInfo()
 	{
 	}
