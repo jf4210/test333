@@ -310,6 +310,7 @@ typedef struct _Model_
 	int			nUseWordAnchorPoint;	//是否使用文字作为定点，0-不用，默认用黑框做定点，1-使用文字识别做定点
 	int			nCharacterAnchorPoint;	//用来计算矩形位置的文字定点个数
 	int			nUsePagination;			//是否使用页码标识，针对多页试卷的情况，默认不开启
+	int			nLastPageBlank;			//针对多页模式，最后一页空白
 
 	int			nChkLostCorner;			//是否进行缺角检测
 	
@@ -336,6 +337,7 @@ typedef struct _Model_
 		nUseWordAnchorPoint = 0;
 		nCharacterAnchorPoint = 4;
 		nUsePagination = 0;
+		nLastPageBlank = 0;
 		nChkLostCorner = 0;
 	}
 	~_Model_()
