@@ -22,7 +22,6 @@ typedef enum CPType
 	OMR,			//选择题设置
 	ELECT_OMR,		//选做题
 	CHARACTER_AREA,	//文字定位区
-	WHITE_GRAY_AREA,//空白校验区
 	PAGINATION		//页码标识
 };
 
