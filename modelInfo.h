@@ -22,7 +22,8 @@ typedef enum CPType
 	OMR,			//选择题设置
 	ELECT_OMR,		//选做题
 	CHARACTER_AREA,	//文字定位区
-	PAGINATION		//页码标识
+	PAGINATION,		//页码标识
+	ZGT				//主观题区域
 };
 
 typedef struct _RectInfo_
@@ -45,8 +46,8 @@ typedef struct _RectInfo_
 	int			nHItem;							//第几个水平同步头
 	int			nVItem;							//第几个垂直同步头
 	int			nSnVal;							//标识准考证的数字 0-9
-	int			nTH;							//题号，用于文字识别时表示属于第几个识别区
-	int			nAnswer;						//答案循序，属于第几个答案，如1-A,2-B,3-C,4-D,5-E,6-F...,用于文字识别时表示属于当前识别区的第几个识别项，如第1个、第2个识别字
+	int			nTH;							//题号，用于文字识别时表示属于第几个识别区，用于定点:表按框选顺序的第几个定点，选做题时表示第几组
+	int			nAnswer;						//答案循序，属于第几个答案，如0-A,1-B,2-C,3-D,4-E,5-F...,用于文字识别时表示属于当前识别区的第几个识别项，如第1个、第2个识别字
 	int			nSingle;						//0-单选，1-多选, 2-判断题
 	int			nRecogFlag;						//识别标识：识别SN时--识别考号顺序与选项方向的考号窗口标识值；识别OMR时--识别题号顺序与选项方向的OMR设置窗口的标识值
 	int			nZkzhType;						//准考证号的类型，1-OMR，2-条码or二维码
@@ -132,7 +133,7 @@ typedef struct _ElectOmrQuestion_	//选做题
 	_ElectOmrQuestion_()
 	{
 		nDoubt = 0;
-		nPageId = 1;
+		nPageId = 0;
 	}
 }ELECTOMR_QUESTION, *pELECTOMR_QUESTION;
 typedef std::list<ELECTOMR_QUESTION> ELECTOMR_LIST;
@@ -229,12 +230,86 @@ typedef struct _CharacterAnchorArea_
 }ST_CHARACTER_ANCHOR_AREA, *pST_CHARACTER_ANCHOR_AREA;
 typedef std::list<pST_CHARACTER_ANCHOR_AREA> CHARACTER_ANCHOR_AREA_LIST;	//文字定位区域列表定义
 
+typedef struct _zgtOmrScoreRt_
+{
+	float fScore;			//该分数块的分值
+	cv::Rect rt;			//该分数块的坐标
+}ST_ZgtOmrScoreRect, *pST_ZgtOmrScoreRect;		//主观题: 圈阅部分每个分数识别块的分数信息即位置
+
+typedef struct _zgtHandRecog_
+{
+	int nFlag;		//1-得分加，2-得分减
+	cv::Rect rtHandRecog;	//分数识别区, 含3个部分，前面是+/-，后面两位是手写的分数
+	_zgtHandRecog_()
+	{
+		nFlag = 1;
+	}
+}ST_ZgtHandRecogScore, *pST_ZgtHandRecogScore;		//主观题: 手写分数识别
+
+typedef struct _zgtOmrRecog_
+{
+	//<=20分, 有22个给分框(含0.5), >20分, 分十位数、个位数给分框(含0.5, 11个框)
+	int nPotFive;			//解答题: 该题是否有0.5分
+	int nRtW;				//解答题: 每个分数框的宽度
+	int nRtH;				//解答题: 每个分数框的高度
+	cv::Rect rtScore;		//解答题: 整个分数栏的坐标, 矩形框定位方法: 最右边为0.5分数框，依次0-9，再间隔一空，再十分位
+	std::list<ST_ZgtOmrScoreRect> scoreList;	//解答题: 每个分数块的信息列表
+
+	std::list<cv::Rect> rtList;			//填空题的圈阅识别，每个空对应一个矩形框，打叉的就扣分，什么都不做的就表示正确
+}ST_ZgtOmrRecogScore, *pST_ZgtOmrRecogScore;		//主观题: 圈阅分数识别
+
+typedef struct _zgtScore_
+{
+	int nRecogType;		//1-手写识别, 2-圈阅识别
+	int nScores;		//该题总分
+	pST_ZgtHandRecogScore pScoreHandRecog;		//分数手写识别
+	pST_ZgtOmrRecogScore pScoreOmrRecog;		//分数圈阅识别
+	_zgtScore_()
+	{
+		nRecogType = 1;
+		nScores = 0;
+		pScoreHandRecog = NULL;
+		pScoreOmrRecog = NULL;
+	}
+	~_zgtScore_()
+	{
+		SAFE_RELEASE(pScoreHandRecog);
+		SAFE_RELEASE(pScoreOmrRecog);
+	}
+}ST_ZgtScore, *pST_ZgtScore;		//主观题分数识别信息
+
+typedef struct _ZgtRegion_
+{
+	int nId;			//该题的答题区ID，可能存在多个答题区，比如2个，一部分在第2栏下面，一部分在第3栏上面
+	int nPageId;		//该部分答题区所在试卷的第几页，从0计算
+	cv::Rect rt;
+}ST_ZgtRegion, *pST_ZgtRegion;		//主观题的答题区域
+
+typedef struct _Zgt_
+{
+	int nType;			//题目类型		1-填空题, 2-解答题，3-英语作文，4-语文作文，5-选做题...
+	int nTh;			//题号
+	pST_ZgtScore pRecogScore;	//手阅的分数识别部分
+	std::vector<ST_ZgtRegion> vecRegion;
+	_Zgt_()
+	{
+		nType = 2;
+		nTh = 0;
+		pRecogScore = NULL;
+	}
+	~_Zgt_()
+	{
+		SAFE_RELEASE(pRecogScore);
+	}
+}ST_ZGT, *pST_ZGT;
+typedef std::list<ST_ZGT>	ZGT_LIST;
+
 typedef struct _PaperModel_
 {
 	int			nPaper;					//标识此模板属于第几张试卷
 	int			nPicW;					//图片宽
 	int			nPicH;					//图片高
-	int			nPaperType;				//试卷类型，A3-1，A4-2
+	int			nPaperType;				//试卷类型，A4-1, A3-2
 	int			nPicSaveRotation;		/*图片保存方向, 图像的原始方向，相对视觉的方向(即考试作答方向)，在文字识别时要调整到视觉正常方向，模板保存时设置
 										0:未知方向，1: 正常视觉方向(考试作答方向)，2-正常方向左旋90后的方向，3-正常方向右旋90后的方向，4-正常方向旋转180度后的方向*/
 	std::string	strModelPicName;		//模板图片名称
@@ -260,6 +335,7 @@ typedef struct _PaperModel_
 	OMRLIST		lOMR2;
 	ELECTOMR_LIST	lElectOmr;			//选做题列表
 	CHARACTER_ANCHOR_AREA_LIST lCharacterAnchorArea;	//文字识别定位区域
+	ZGT_LIST	lZgt;					//主观题列表
 	cv::Mat		matModel;				//模板的图像，在文字识别部分用到了模板匹配，需要模板的图像
 
 	_PaperModel_()
@@ -312,7 +388,11 @@ typedef struct _Model_
 	int			nLastPageBlank;			//针对多页模式，最后一页空白
 
 	int			nChkLostCorner;			//是否进行缺角检测
+	int			nCardType;				//卡类型：0-网阅卡，1-手阅卡(手阅卡需要后台去识别手写分数,不需要进行主观题划分了)
 	
+	std::string strExamUUID;
+	std::string strSubjectUUID;
+
 	std::string	strModelName;			//模板名称
 	std::string	strModelDesc;			//模板描述
 
@@ -338,6 +418,7 @@ typedef struct _Model_
 		nUsePagination = 0;
 		nLastPageBlank = 0;
 		nChkLostCorner = 0;
+		nCardType = 0;
 	}
 	~_Model_()
 	{
