@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "ModelMgr.h"
 
 
@@ -15,10 +15,18 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 {
 	std::string strJsnModel = strModelPath + "\\model.dat";
 
+	_strLog.clear();
+
 	std::string strJsnData;
 	std::ifstream in(strJsnModel);
 	if (!in)
+	{
+		//LOG(ERROR) << "LoadModelFile fail. " << strJsnModel << " open fail.";
+		std::stringstream ss;
+		ss << "LoadModelFile fail. " << strJsnModel << " open fail.";
+		_strLog.append(ss.str());
 		return NULL;
+	}
 
 	std::string strJsnLine;
 	while (!in.eof())
@@ -79,6 +87,8 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 			pModel->nUsePagination = objData->get("nUsePagination").convert<int>();
 		if (objData->has("nChkLostCorner"))
 			pModel->nChkLostCorner = objData->get("nChkLostCorner").convert<int>();
+		if (objData->has("nCardType"))
+			pModel->nCardType = objData->get("nCardType").convert<int>();
 
 		// 		if (objData->has("gaussKernel"))
 		// 			pModel->nGaussKernel = objData->get("gaussKernel").convert<int>();
@@ -93,6 +103,10 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 			pModel->nExamID = objData->get("nExamId").convert<int>();
 		if (objData->has("nSubjectId"))
 			pModel->nSubjectID = objData->get("nSubjectId").convert<int>();
+		if (objData->has("examUUID"))
+			pModel->strExamUUID = objData->get("examUUID").convert<std::string>();
+		if (objData->has("subjectUUID"))
+			pModel->strSubjectUUID = objData->get("subjectUUID").convert<std::string>();
 
 		Poco::JSON::Array::Ptr arrayPapers = objData->getArray("paperInfo");
 		for (int i = 0; i < arrayPapers->size(); i++)
@@ -102,6 +116,7 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 			pPAPERMODEL paperModelInfo = new PAPERMODEL;
 			paperModelInfo->nPaper = jsnPaperObj->get("paperNum").convert<int>();
 			paperModelInfo->strModelPicName = CMyCodeConvert::Utf8ToGb2312(jsnPaperObj->get("modelPicName").convert<std::string>());
+			paperModelInfo->strModelPicPath = strModelPath + "\\" + paperModelInfo->strModelPicName;
 
 			if (jsnPaperObj->has("picW"))			//add on 16.8.29
 				paperModelInfo->nPicW = jsnPaperObj->get("picW").convert<int>();
@@ -157,6 +172,9 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 				std::string strPicPath = _strModelDirPath + "\\" + paperModelInfo->strModelPicName;
 				paperModelInfo->matModel = cv::imread(strPicPath);	//(std::string)(CT2CA)strPicPath
 			}
+			Poco::JSON::Array::Ptr arryZgt;
+			if (jsnPaperObj->has("zgt"))
+				arryZgt = jsnPaperObj->getArray("zgt");
 
 			for (int i = 0; i < arrayFixCP->size(); i++)
 			{
@@ -810,6 +828,33 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 					paperModelInfo->lCharacterAnchorArea.push_back(pobjCharacterAnchorArea);
 				}
 			}
+			if (jsnPaperObj->has("zgt"))
+			{
+				for (int i = 0; i < arryZgt->size(); i++)
+				{
+					Poco::JSON::Object::Ptr jsnObj = arryZgt->getObject(i);
+					ST_ZGT stZgt;
+					stZgt.nType = jsnObj->get("type").convert<int>();
+					stZgt.nTh = jsnObj->get("th").convert<int>();
+// 					stZgt.nS_Th = jsnObj->get("s_th").convert<int>();
+// 					stZgt.nE_Th = jsnObj->get("e_th").convert<int>();
+					Poco::JSON::Array::Ptr arryRegion = jsnObj->getArray("region");
+					for (int k = 0; k < arryRegion->size(); k++)
+					{
+						Poco::JSON::Object::Ptr jsnRegion = arryRegion->getObject(k);
+						ST_ZgtRegion stRegion;
+						stRegion.nId = jsnRegion->get("id").convert<int>();
+						stRegion.nPageId = jsnRegion->get("pageId").convert<int>();
+						Poco::JSON::Object::Ptr jsnPos = jsnRegion->getObject("pos");
+						stRegion.rt.x = jsnPos->get("x").convert<int>();
+						stRegion.rt.y = jsnPos->get("y").convert<int>();
+						stRegion.rt.width = jsnPos->get("w").convert<int>();
+						stRegion.rt.height = jsnPos->get("h").convert<int>();
+						stZgt.vecRegion.push_back(stRegion);
+					}
+					paperModelInfo->lZgt.push_back(stZgt);
+				}
+			}
 
 			std::vector<pPAPERMODEL>::iterator itBegin = pModel->vecPaperModel.begin();
 			for (; itBegin != pModel->vecPaperModel.end();)
@@ -836,7 +881,10 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 		std::string strErrInfo;
 		strErrInfo.append("加载模板文件解析json失败: ");
 		strErrInfo.append(jsone.message());
-		_strLog = strErrInfo;
+		//LOG(ERROR) << "LoadModelFile : " << strErrInfo;
+		std::stringstream ss;
+		ss << "LoadModelFile : " << strErrInfo;
+		_strLog.append(ss.str());
 	}
 	catch (Poco::Exception& exc)
 	{
@@ -848,7 +896,10 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 		std::string strErrInfo;
 		strErrInfo.append("加载模板文件解析json失败2: ");
 		strErrInfo.append(exc.message());
-		_strLog = strErrInfo;
+		//LOG(ERROR) << "LoadModelFile : " << strErrInfo;
+		std::stringstream ss;
+		ss << "LoadModelFile : " << strErrInfo;
+		_strLog.append(ss.str());
 	}
 
 	return pModel;
@@ -857,6 +908,7 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 bool CModelMgr::SaveModelFile(pMODEL pModel)
 {
 	std::string modelPath = _strModelDirPath + pModel->strModelName;
+	_strLog.clear();
 
 	try
 	{
@@ -867,7 +919,10 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 	catch (Poco::Exception& exc)
 	{
 		std::string strLog = "创建模板保存路径失败: " + exc.displayText() + "\n";
-		_strLog.append(strLog);
+		//LOG(ERROR) << "SaveModelFile : " << strLog;
+		std::stringstream ss;
+		ss << "SaveModelFile : " << strLog;
+		_strLog.append(ss.str());
 		return false;
 	}
 
@@ -894,7 +949,10 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 			strLog.append("file cope error: " + exc.displayText());
 			std::string strGBLog = CMyCodeConvert::Utf8ToGb2312(strLog);
 			_strLog.append(strGBLog);
-			TRACE(strGBLog.c_str());
+			//LOG(WARNING) << "SaveModelFile : " << strGBLog;
+			std::stringstream ss;
+			ss << "SaveModelFile : " << strGBLog;
+			_strLog.append(ss.str());
 		}
 
 		std::string strPicName = pModel->vecPaperModel[i]->strModelPicName;
@@ -916,6 +974,7 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 		Poco::JSON::Array jsnOMRArry;
 		Poco::JSON::Array jsnElectOmrArry;
 		Poco::JSON::Array jsnCharacterAnchorAreaArry;
+		Poco::JSON::Array jsnZgt;
 		RECTLIST::iterator itFix = pModel->vecPaperModel[i]->lFix.begin();
 		for (; itFix != pModel->vecPaperModel[i]->lFix.end(); itFix++)
 		{
@@ -1392,6 +1451,31 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 			jsnCharacterAnchorAreaObj.set("characterAnchorPointList", jsnArry);
 			jsnCharacterAnchorAreaArry.add(jsnCharacterAnchorAreaObj);
 		}
+		ZGT_LIST::iterator itZgt = pModel->vecPaperModel[i]->lZgt.begin();
+		for (; itZgt != pModel->vecPaperModel[i]->lZgt.end(); itZgt++)
+		{
+			Poco::JSON::Object jsnObj;
+			jsnObj.set("type", itZgt->nType);
+			jsnObj.set("th", itZgt->nTh);
+// 			jsnObj.set("s_th", itZgt->nS_Th);
+// 			jsnObj.set("e_th", itZgt->nE_Th);
+			Poco::JSON::Array arryRegion;
+			for (int k = 0; k < itZgt->vecRegion.size(); k++)
+			{
+				Poco::JSON::Object jsnRegion;
+				jsnRegion.set("id", itZgt->vecRegion[k].nId);
+				jsnRegion.set("pageId", itZgt->vecRegion[k].nPageId);
+				Poco::JSON::Object jsnPos;
+				jsnPos.set("x", itZgt->vecRegion[k].rt.x);
+				jsnPos.set("y", itZgt->vecRegion[k].rt.y);
+				jsnPos.set("w", itZgt->vecRegion[k].rt.width);
+				jsnPos.set("h", itZgt->vecRegion[k].rt.height);
+				jsnRegion.set("pos", jsnPos);
+				arryRegion.add(jsnRegion);
+			}
+			jsnObj.set("region", arryRegion);
+			jsnZgt.add(jsnObj);
+		}
 		jsnPaperObj.set("paperNum", i);
 		jsnPaperObj.set("modelPicName", CMyCodeConvert::Gb2312ToUtf8(strPicName));		//CMyCodeConvert::Gb2312ToUtf8(T2A(strPicName))
 		jsnPaperObj.set("FixCP", jsnFixCPArry);
@@ -1411,6 +1495,7 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 		jsnPaperObj.set("snList", jsnSNArry);
 		jsnPaperObj.set("electOmrList", jsnElectOmrArry);
 		jsnPaperObj.set("characterAnchorArea", jsnCharacterAnchorAreaArry);
+		jsnPaperObj.set("zgt", jsnZgt);
 
 		jsnPaperObj.set("picSaveRotion", pModel->vecPaperModel[i]->nPicSaveRotation);
 		jsnPaperObj.set("picW", pModel->vecPaperModel[i]->nPicW);		//add on 16.8.29
@@ -1450,9 +1535,12 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 	jsnModel.set("nCharacterAnchorPoint", pModel->nCharacterAnchorPoint);	//用来计算矩形位置的文字定点个数
 	jsnModel.set("nUsePagination", pModel->nUsePagination);					//是否使用页码标识
 	jsnModel.set("nChkLostCorner", pModel->nChkLostCorner);					//是否需要进行缺角检测
+	jsnModel.set("nCardType", pModel->nCardType);							//卡类型：0-网阅卡，1-手阅卡
 
 	jsnModel.set("nExamId", pModel->nExamID);
 	jsnModel.set("nSubjectId", pModel->nSubjectID);
+	jsnModel.set("examUUID", pModel->strExamUUID);
+	jsnModel.set("subjectUUID", pModel->strSubjectUUID);
 	jsnModel.set("paperInfo", jsnPicModel);
 
 	std::stringstream jsnString;
@@ -1471,7 +1559,12 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 	ofstream out(strJsnFile);
 	if (!out)
 	{
-		_strLog.append("创建模板信息文件失败: " + strJsnFile + "\n");
+		std::string strLog = "创建模板信息文件失败: " + strJsnFile + "\n";
+		_strLog.append(strLog);
+		//LOG(ERROR) << "SaveModelFile : " << strLog;
+		std::stringstream ss;
+		ss << "SaveModelFile : " << strLog;
+		_strLog.append(ss.str());
 		return false;
 	}
 	out << strFileData.c_str();
@@ -1479,7 +1572,7 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 	return true;
 }
 
-void CModelMgr::SeBaseInfo(std::string strModelDirPath, std::string EncPwd)
+void CModelMgr::SetBaseInfo(std::string strModelDirPath, std::string EncPwd)
 {
 	_strModelDirPath = strModelDirPath;
 	_strEncPwd = EncPwd;
@@ -1503,6 +1596,7 @@ bool CModelMgr::encString(std::string& strSrc, std::string& strDst)
 	{
 		bResult = false;
 		std::string strLog = "数据加密失败，按原数据操作\n";
+		//LOG(WARNING) << strLog;
 		_strLog.append(strLog);
 	}
 	return bResult;
@@ -1526,7 +1620,13 @@ bool CModelMgr::decString(std::string& strSrc, std::string& strDst)
 	{
 		bResult = false;
 		std::string strLog = "数据解密失败，按原数据操作\n";
+		//LOG(WARNING) << strLog;
 		_strLog.append(strLog);
 	}
 	return bResult;
+}
+
+std::string CModelMgr::GetLog()
+{
+	return _strLog;
 }

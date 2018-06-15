@@ -16,9 +16,11 @@ public:
 	pMODEL	LoadModelFile(std::string strModelPath);
 	bool	SaveModelFile(pMODEL pModel);
 	
+	std::string GetLog();
+
 	//模板文件夹存储路径，如：E:\myWorkspace\yklx\bin\release\Model\
 	//设置基本信息
-	void	SeBaseInfo(std::string strModelDirPath, std::string EncPwd);
+	void	SetBaseInfo(std::string strModelDirPath, std::string EncPwd);
 private:
 	bool	encString(std::string& strSrc, std::string& strDst);
 	bool	decString(std::string& strSrc, std::string& strDst);
