@@ -835,7 +835,8 @@ pMODEL CModelMgr::LoadModelFile(std::string strModelPath)
 					Poco::JSON::Object::Ptr jsnObj = arryZgt->getObject(i);
 					ST_ZGT stZgt;
 					stZgt.nType = jsnObj->get("type").convert<int>();
-					stZgt.nTh = jsnObj->get("th").convert<int>();
+					stZgt.nCounts = jsnObj->get("counts").convert<int>();
+					stZgt.strTh = jsnObj->get("th").convert<std::string>();
 // 					stZgt.nS_Th = jsnObj->get("s_th").convert<int>();
 // 					stZgt.nE_Th = jsnObj->get("e_th").convert<int>();
 					Poco::JSON::Array::Ptr arryRegion = jsnObj->getArray("region");
@@ -1456,7 +1457,8 @@ bool CModelMgr::SaveModelFile(pMODEL pModel)
 		{
 			Poco::JSON::Object jsnObj;
 			jsnObj.set("type", itZgt->nType);
-			jsnObj.set("th", itZgt->nTh);
+			jsnObj.set("counts", itZgt->nCounts);
+			jsnObj.set("th", itZgt->strTh);
 // 			jsnObj.set("s_th", itZgt->nS_Th);
 // 			jsnObj.set("e_th", itZgt->nE_Th);
 			Poco::JSON::Array arryRegion;

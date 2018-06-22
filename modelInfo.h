@@ -156,7 +156,7 @@ typedef struct _OmrResult_
 		nDoubt = 0;
 		nTH = -1;
 		nSingle = 0;
-		nPageId = 1;
+		nPageId = 0;
 		fWhiteAreaGray = 0.0;
 		fWhiteAreaGrayModel = 0.0;
 	}
@@ -288,13 +288,16 @@ typedef struct _ZgtRegion_
 typedef struct _Zgt_
 {
 	int nType;			//题目类型		1-填空题, 2-解答题，3-英语作文，4-语文作文，5-选做题...
-	int nTh;			//题号
+//	int nTh;			//题号
+	int nCounts;		//小题数
+	std::string strTh;			//题号，有小题，如17.1, 17.2
 	pST_ZgtScore pRecogScore;	//手阅的分数识别部分
 	std::vector<ST_ZgtRegion> vecRegion;
 	_Zgt_()
 	{
 		nType = 2;
-		nTh = 0;
+//		nTh = 0;
+		nCounts = 1;
 		pRecogScore = NULL;
 	}
 	~_Zgt_()
